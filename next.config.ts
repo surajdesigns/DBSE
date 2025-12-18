@@ -1,38 +1,35 @@
 import type { NextConfig } from "next";
-import path from "node:path";
 
-// Loader path from orchids-visual-edits - use direct resolve to get the actual file
-const loaderPath = require.resolve('orchids-visual-edits/loader.js');
+// Loader path from orchids-visual-edits
+const loaderPath = require.resolve("orchids-visual-edits/loader.js");
 
 const nextConfig: NextConfig = {
+  output: "standalone", // ✅ REQUIRED for Vercel
+
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: '**',
-      },
+      { protocol: "https", hostname: "**" },
+      { protocol: "http", hostname: "**" },
     ],
   },
-  outputFileTracingRoot: path.resolve(__dirname, '../../'),
+
   typescript: {
     ignoreBuildErrors: true,
   },
+
   eslint: {
     ignoreDuringBuilds: true,
   },
+
   turbopack: {
     rules: {
       "*.{jsx,tsx}": {
-        loaders: [loaderPath]
-      }
-    }
+        loaders: [loaderPath],
+      },
+    },
   },
-  allowedDevOrigins: ['*.orchids.page'],
-} as NextConfig;
+
+  allowedDevOrigins: ["*.orchids.page"],
+};
 
 export default nextConfig;
-// Orchids restart: 1765906478026
